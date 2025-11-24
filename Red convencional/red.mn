@@ -1,0 +1,536 @@
+{
+    "application": {
+        "dpctl": "",
+        "ipBase": "10.0.0.0/8",
+        "netflow": {
+            "nflowAddId": "0",
+            "nflowTarget": "",
+            "nflowTimeout": "600"
+        },
+        "openFlowVersions": {
+            "ovsOf10": "1",
+            "ovsOf11": "0",
+            "ovsOf12": "0",
+            "ovsOf13": "0"
+        },
+        "sflow": {
+            "sflowHeader": "128",
+            "sflowPolling": "30",
+            "sflowSampling": "400",
+            "sflowTarget": ""
+        },
+        "startCLI": "0",
+        "switchType": "ovs",
+        "terminalType": "xterm"
+    },
+    "controllers": [],
+    "hosts": [
+        {
+            "number": "4",
+            "opts": {
+                "hostname": "Agro",
+                "nodeNum": 4,
+                "sched": "host"
+            },
+            "x": "937.0",
+            "y": "85.0"
+        },
+        {
+            "number": "21",
+            "opts": {
+                "hostname": "cluster_5",
+                "nodeNum": 21,
+                "sched": "host"
+            },
+            "x": "942.0",
+            "y": "317.0"
+        },
+        {
+            "number": "26",
+            "opts": {
+                "hostname": "cluster_2",
+                "nodeNum": 26,
+                "sched": "host"
+            },
+            "x": "486.0",
+            "y": "335.0"
+        },
+        {
+            "number": "11",
+            "opts": {
+                "hostname": "PC_3",
+                "nodeNum": 11,
+                "sched": "host"
+            },
+            "x": "380.0",
+            "y": "695.0"
+        },
+        {
+            "number": "6",
+            "opts": {
+                "hostname": "Santiag",
+                "nodeNum": 6,
+                "sched": "host"
+            },
+            "x": "938.0",
+            "y": "235.0"
+        },
+        {
+            "number": "2",
+            "opts": {
+                "hostname": "CC",
+                "nodeNum": 2,
+                "sched": "host"
+            },
+            "x": "340.0",
+            "y": "93.0"
+        },
+        {
+            "number": "3",
+            "opts": {
+                "hostname": "Bioq",
+                "nodeNum": 3,
+                "sched": "host"
+            },
+            "x": "336.0",
+            "y": "221.0"
+        },
+        {
+            "number": "5",
+            "opts": {
+                "hostname": "Mecan",
+                "nodeNum": 5,
+                "sched": "host"
+            },
+            "x": "938.0",
+            "y": "155.0"
+        },
+        {
+            "number": "8",
+            "opts": {
+                "hostname": "serv_2",
+                "nodeNum": 8,
+                "sched": "host"
+            },
+            "x": "156.0",
+            "y": "633.0"
+        },
+        {
+            "number": "17",
+            "opts": {
+                "hostname": "Serc_3",
+                "nodeNum": 17,
+                "sched": "host"
+            },
+            "x": "1033.0",
+            "y": "605.0"
+        },
+        {
+            "number": "10",
+            "opts": {
+                "hostname": "PC_2",
+                "nodeNum": 10,
+                "sched": "host"
+            },
+            "x": "378.0",
+            "y": "623.0"
+        },
+        {
+            "number": "15",
+            "opts": {
+                "hostname": "Serc_1",
+                "nodeNum": 15,
+                "sched": "host"
+            },
+            "x": "1026.0",
+            "y": "454.0"
+        },
+        {
+            "number": "7",
+            "opts": {
+                "hostname": "serv_1",
+                "nodeNum": 7,
+                "sched": "host"
+            },
+            "x": "151.0",
+            "y": "544.0"
+        },
+        {
+            "number": "20",
+            "opts": {
+                "hostname": "Const",
+                "nodeNum": 20,
+                "sched": "host"
+            },
+            "x": "795.0",
+            "y": "351.0"
+        },
+        {
+            "number": "9",
+            "opts": {
+                "hostname": "PC_1",
+                "nodeNum": 9,
+                "sched": "host"
+            },
+            "x": "379.0",
+            "y": "559.0"
+        },
+        {
+            "number": "27",
+            "opts": {
+                "hostname": "cluster_3",
+                "nodeNum": 27,
+                "sched": "host"
+            },
+            "x": "761.0",
+            "y": "468.0"
+        },
+        {
+            "number": "25",
+            "opts": {
+                "hostname": "cluster_4",
+                "nodeNum": 25,
+                "sched": "host"
+            },
+            "x": "650.0",
+            "y": "624.0"
+        },
+        {
+            "number": "1",
+            "opts": {
+                "hostname": "Gimp",
+                "nodeNum": 1,
+                "sched": "host"
+            },
+            "x": "337.0",
+            "y": "156.0"
+        },
+        {
+            "number": "24",
+            "opts": {
+                "hostname": "cluster_1",
+                "nodeNum": 24,
+                "sched": "host"
+            },
+            "x": "635.0",
+            "y": "43.0"
+        },
+        {
+            "number": "28",
+            "opts": {
+                "hostname": "maestro",
+                "nodeNum": 28,
+                "sched": "host"
+            },
+            "x": "522.0",
+            "y": "631.0"
+        },
+        {
+            "number": "16",
+            "opts": {
+                "hostname": "Serc_2",
+                "nodeNum": 16,
+                "sched": "host"
+            },
+            "x": "1025.0",
+            "y": "524.0"
+        }
+    ],
+    "links": [
+        {
+            "dest": "sConst2",
+            "opts": {},
+            "src": "sCORE_CC1"
+        },
+        {
+            "dest": "Serc_1",
+            "opts": {},
+            "src": "sSecr6"
+        },
+        {
+            "dest": "Serc_2",
+            "opts": {},
+            "src": "sSecr6"
+        },
+        {
+            "dest": "Serc_3",
+            "opts": {},
+            "src": "sSecr6"
+        },
+        {
+            "dest": "PC_1",
+            "opts": {},
+            "src": "sLab4"
+        },
+        {
+            "dest": "PC_2",
+            "opts": {},
+            "src": "sLab4"
+        },
+        {
+            "dest": "PC_3",
+            "opts": {},
+            "src": "sLab4"
+        },
+        {
+            "dest": "serv_1",
+            "opts": {},
+            "src": "sServ5"
+        },
+        {
+            "dest": "serv_2",
+            "opts": {},
+            "src": "sServ5"
+        },
+        {
+            "dest": "sFIN3",
+            "opts": {},
+            "src": "sConst2"
+        },
+        {
+            "dest": "sFIN3",
+            "opts": {},
+            "src": "sServ5"
+        },
+        {
+            "dest": "sFIN3",
+            "opts": {},
+            "src": "sSecr6"
+        },
+        {
+            "dest": "sLab4",
+            "opts": {},
+            "src": "sFIN3"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "cluster_1"
+        },
+        {
+            "dest": "sConst2",
+            "opts": {},
+            "src": "cluster_2"
+        },
+        {
+            "dest": "sLab4",
+            "opts": {},
+            "src": "cluster_4"
+        },
+        {
+            "dest": "sFIN3",
+            "opts": {},
+            "src": "cluster_3"
+        },
+        {
+            "dest": "sLab4",
+            "opts": {},
+            "src": "maestro"
+        },
+        {
+            "dest": "s1",
+            "opts": {},
+            "src": "CC"
+        },
+        {
+            "dest": "s2",
+            "opts": {},
+            "src": "Gimp"
+        },
+        {
+            "dest": "s3",
+            "opts": {},
+            "src": "Bioq"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s1"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s2"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s3"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s4"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s5"
+        },
+        {
+            "dest": "sCORE_CC1",
+            "opts": {},
+            "src": "s6"
+        },
+        {
+            "dest": "s4",
+            "opts": {},
+            "src": "Agro"
+        },
+        {
+            "dest": "s5",
+            "opts": {},
+            "src": "Mecan"
+        },
+        {
+            "dest": "s6",
+            "opts": {},
+            "src": "Santiag"
+        },
+        {
+            "dest": "sConst2",
+            "opts": {},
+            "src": "Const"
+        },
+        {
+            "dest": "cluster_5",
+            "opts": {},
+            "src": "s6"
+        }
+    ],
+    "switches": [
+        {
+            "number": "1",
+            "opts": {
+                "controllers": [],
+                "hostname": "s1",
+                "nodeNum": 1,
+                "switchType": "legacySwitch"
+            },
+            "x": "443.0",
+            "y": "91.0"
+        },
+        {
+            "number": "1",
+            "opts": {
+                "controllers": [],
+                "hostname": "sFIN3",
+                "nodeNum": 1,
+                "switchType": "legacySwitch"
+            },
+            "x": "626.0",
+            "y": "382.0"
+        },
+        {
+            "number": "4",
+            "opts": {
+                "controllers": [],
+                "hostname": "s4",
+                "nodeNum": 4,
+                "switchType": "legacySwitch"
+            },
+            "x": "822.0",
+            "y": "86.0"
+        },
+        {
+            "number": "3",
+            "opts": {
+                "controllers": [],
+                "hostname": "s3",
+                "nodeNum": 3,
+                "switchType": "legacySwitch"
+            },
+            "x": "445.0",
+            "y": "222.0"
+        },
+        {
+            "number": "6",
+            "opts": {
+                "controllers": [],
+                "hostname": "sConst2",
+                "nodeNum": 6,
+                "switchType": "legacySwitch"
+            },
+            "x": "632.0",
+            "y": "268.0"
+        },
+        {
+            "number": "5",
+            "opts": {
+                "controllers": [],
+                "hostname": "s5",
+                "nodeNum": 5,
+                "switchType": "legacySwitch"
+            },
+            "x": "826.0",
+            "y": "160.0"
+        },
+        {
+            "number": "4",
+            "opts": {
+                "controllers": [],
+                "hostname": "sLab4",
+                "nodeNum": 4,
+                "switchType": "legacySwitch"
+            },
+            "x": "528.0",
+            "y": "456.0"
+        },
+        {
+            "number": "5",
+            "opts": {
+                "controllers": [],
+                "hostname": "sSecr6",
+                "nodeNum": 5,
+                "switchType": "legacySwitch"
+            },
+            "x": "893.0",
+            "y": "468.0"
+        },
+        {
+            "number": "2",
+            "opts": {
+                "controllers": [],
+                "hostname": "s2",
+                "nodeNum": 2,
+                "switchType": "legacySwitch"
+            },
+            "x": "445.0",
+            "y": "156.0"
+        },
+        {
+            "number": "3",
+            "opts": {
+                "controllers": [],
+                "hostname": "sServ5",
+                "nodeNum": 3,
+                "switchType": "legacySwitch"
+            },
+            "x": "265.0",
+            "y": "454.0"
+        },
+        {
+            "number": "1",
+            "opts": {
+                "controllers": [],
+                "hostname": "sCORE_CC1",
+                "nodeNum": 1,
+                "switchType": "legacySwitch"
+            },
+            "x": "637.0",
+            "y": "165.0"
+        },
+        {
+            "number": "6",
+            "opts": {
+                "controllers": [],
+                "hostname": "s6",
+                "nodeNum": 6,
+                "switchType": "legacySwitch"
+            },
+            "x": "832.0",
+            "y": "236.0"
+        }
+    ],
+    "version": "2"
+}

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from mininet.net import Mininet
-from mininet.node import OVSBridge      # <- switch en modo bridge, NO OpenFlow
+from mininet.node import OVSBridge
 from mininet.link import TCLink
 from mininet.log import setLogLevel, info
 
@@ -43,8 +43,8 @@ IP_BASE_ATAQUE  = "10.0.0."
 
 TCP_PORT        = 5001
 UDP_PORT        = 5002
-IPERF_PARALELO  = 8 # Atacantes en paralelo, requiere mejor CPU
-ANCHO_BANDA_UDP = "80M" # Ancho volumetríco del ataque
+IPERF_PARALELO  = 8 # Atacantes en paralelo, requiere mejor CPU, usa IPERF
+ANCHO_BANDA_UDP = "80M" # Ancho volumetríco del ataque, usa UDP
 
 CANTIDAD_PINGS      = 40
 RETARDO_ENTRE_PINGS = 0.2
@@ -80,7 +80,7 @@ def sobrescribir_archivos_log():
 # Parseo de salida de ping
 # ==========================================================
 def parsear_salida_ping(out):
-    """Extrae la latencia en ms desde la salida de ping."""
+    # Extrae la latencia en ms desde la salida de ping.
     m = re.search(r"time[=<]\s*([\d\.]+)\s*ms", out, re.IGNORECASE)
     if m:
         try:
@@ -91,7 +91,7 @@ def parsear_salida_ping(out):
 
 
 def ejecutar_prueba_ping(host_origen, ip_destino, cantidad, retardo_entre, etiqueta=""):
-    """Ejecuta N pings y devuelve lista de resultados y cantidad de timeouts."""
+    # Ejecuta N pings y devuelve lista de resultados y cantidad de timeouts.
     resultados = []
     timeouts   = 0
 
@@ -121,7 +121,7 @@ def ejecutar_prueba_ping(host_origen, ip_destino, cantidad, retardo_entre, etiqu
 # Servidores iperf
 # ==========================================================
 def iniciar_servidores_iperf(host):
-    """Inicia servidores iperf TCP y UDP en el host servidor."""
+    # Inicia servidores iperf TCP y UDP en el host servidor.
     host.cmd("pkill -f '^iperf -s' || true")
     host.cmd("ulimit -n 65535; nohup iperf -s -p {} > /tmp/iperf_tcp.log 2>&1 &".format(TCP_PORT))
     host.cmd("ulimit -n 65535; nohup iperf -s -u -p {} > /tmp/iperf_udp.log 2>&1 &".format(UDP_PORT))
@@ -143,7 +143,7 @@ def iniciar_servidores_iperf(host):
 # Lanzar y detener ataque DDoS
 # ==========================================================
 def lanzar_ataque_ddos(clusters, ip_destino, duracion_seg, usar_udp=False):
-    """Lanza el ataque DDoS (TCP o UDP) desde todos los atacantes."""
+    # Lanza el ataque DDoS (TCP o UDP) desde todos los atacantes.
     modo = "UDP" if usar_udp else "TCP"
 
     total_hosts = sum(len(c) for c in clusters)
@@ -178,7 +178,7 @@ def lanzar_ataque_ddos(clusters, ip_destino, duracion_seg, usar_udp=False):
 
 
 def detener_ataque_ddos(clusters):
-    """Detiene todos los procesos iperf de los hosts atacantes."""
+    # Detiene todos los procesos iperf de los hosts atacantes.
     for cluster in clusters:
         for h in cluster:
             h.cmd("killall -9 iperf 2>/dev/null || true")
@@ -193,14 +193,6 @@ def detener_ataque_ddos(clusters):
 # Topologia CONVENCIONAL SIMPLE (sin bucles)
 # ==========================================================
 def construir_topologia_convencional_simple():
-    """
-    Topologia convencional simplificada (sin bucles):
-      - s100: switch nucleo.
-      - s101: switch de servidores, conectado a s100.
-      - Serv_1, Serv_2 y cc colgados de s101.
-      - 5 switches hoja (sLeaf1..sLeaf5) conectados a s100, con 10 atacantes cada uno.
-    Sin controlador, sin OpenFlow, solo switches de aprendizaje (OVSBridge).
-    """
     red = Mininet(controller=None, link=TCLink, switch=OVSBridge, build=False)
 
     # Switch nucleo y switch de servidores
@@ -305,7 +297,6 @@ def probar_conectividad_basica(cc, servidor, clusters):
 # Guardar resultados
 # ==========================================================
 def guardar_resultados_ping(log_ping):
-    """Guarda el log de pings en CSV simple."""
     asegurar_directorio_resultados()
     with open(ARCHIVO_PING, "w", encoding="utf-8") as f:
         f.write("FASE,CICLO,INTENTO,PING_NUM,LATENCIA\n")
@@ -315,7 +306,7 @@ def guardar_resultados_ping(log_ping):
 
 
 def generar_resumen(log_ping):
-    """Genera un resumen estadistico de latencias por fase."""
+    # Genera un resumen estadistico de latencias por fase.
     from collections import defaultdict
     datos_fases = defaultdict(list)
 

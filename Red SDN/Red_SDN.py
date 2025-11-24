@@ -110,19 +110,19 @@ _BLOQUEOS_SWITCH = defaultdict(threading.Lock)
 
 
 def comando_host(h, cmd):
-    """Ejecuta un comando en un host de forma segura (protegido por lock)."""
+    # Ejecuta un comando en un host de forma segura (protegido por lock).
     with _BLOQUEOS_HOST[id(h)]:
         return h.cmd(cmd)
 
 
 def popen_host(h, cmd, **kw):
-    """Ejecuta un comando en un host usando popen, protegido por lock."""
+    # Ejecuta un comando en un host usando popen, protegido por lock.
     with _BLOQUEOS_HOST[id(h)]:
         return h.popen(cmd, **kw)
 
 
 def comando_switch(sw, cmd):
-    """Ejecuta un comando en un switch de forma segura (protegido por lock)."""
+    # Ejecuta un comando en un switch de forma segura (protegido por lock).
     with _BLOQUEOS_SWITCH[id(sw)]:
         return sw.cmd(cmd)
 
@@ -222,7 +222,7 @@ def instalar_flows_iniciales(red):
 # Ataque vivo o no
 # ==========================================================
 def ataque_sigue_activo(clusters):
-    """Revisa si los procesos iperf del ataque siguen activos."""
+    # Revisa si los procesos iperf del ataque siguen activos.
     hosts_muestra = [c[0] for c in clusters if c]
     total_procesos = 0
     hosts_con_procesos = 0
@@ -247,7 +247,7 @@ def ataque_sigue_activo(clusters):
 # Deteccion de ataque
 # ==========================================================
 def detectar_ataque(clusters, evento_ping_fallidos):
-    """Determina si hay ataque basado en procesos iperf y el mecanismo de ping fallidos."""
+    # Determina si hay ataque basado en procesos iperf y el mecanismo de ping fallidos.
     vivo, total_procesos, hosts_con_procesos = ataque_sigue_activo(clusters)
 
     if not vivo:
@@ -269,7 +269,7 @@ def detectar_ataque(clusters, evento_ping_fallidos):
 # UMBRAL
 # ==========================================================
 def aplicar_mitigacion_umbral(red, ips_cluster4, ip_servidor):
-    """Aplica mitigacion tipo UMBRAL a las IPs de un cluster especifico."""
+    # Aplica mitigacion tipo UMBRAL a las IPs de un cluster especifico.
     leaf4 = next((s for s in red.switches if s.name == "sLeaf4"), None)
     if not leaf4:
         escribir_log("UMBRAL: sLeaf4 no encontrado")
@@ -288,7 +288,7 @@ def aplicar_mitigacion_umbral(red, ips_cluster4, ip_servidor):
 
 
 def remover_mitigacion_umbral(red, ips_cluster4, ip_servidor):
-    """Elimina la mitigacion de tipo UMBRAL previamente aplicada."""
+    # Elimina la mitigacion de tipo UMBRAL previamente aplicada.
     leaf4 = next((s for s in red.switches if s.name == "sLeaf4"), None)
     if not leaf4:
         return
@@ -304,7 +304,7 @@ def remover_mitigacion_umbral(red, ips_cluster4, ip_servidor):
 # LIMITE DE TASA
 # ==========================================================
 def aplicar_mitigacion_limite_tasa(red, ips_atacantes, switches_hoja, ip_servidor):
-    """Aplica mitigacion de LIMITE DE TASA por cluster usando medidores OpenFlow."""
+    # Aplica mitigacion de LIMITE DE TASA por cluster usando medidores OpenFlow.
     aplicadas = 0
     for id_cluster, sw_hoja in switches_hoja.items():
         id_medidor_tasa = 1000 + id_cluster
@@ -338,7 +338,7 @@ def aplicar_mitigacion_limite_tasa(red, ips_atacantes, switches_hoja, ip_servido
 
 
 def remover_mitigacion_limite_tasa(red, ips_atacantes, switches_hoja, ip_servidor):
-    """Elimina la mitigacion de LIMITE DE TASA y sus medidores."""
+    # Elimina la mitigacion de LIMITE DE TASA y sus medidores.
     for id_cluster, sw_hoja in switches_hoja.items():
         id_medidor_tasa = 1000 + id_cluster
         comando_switch(sw_hoja, "ovs-ofctl -O OpenFlow13 del-flows {} 'priority={}'".format(
@@ -352,7 +352,7 @@ def remover_mitigacion_limite_tasa(red, ips_atacantes, switches_hoja, ip_servido
 # BAN (BLOQUEO TEMPORAL)
 # ==========================================================
 def aplicar_mitigacion_ban(red, ips_atacantes, switches_hoja, ip_servidor, duracion_seg):
-    """Aplica un BAN temporal (bloqueo total) a las IPs atacantes."""
+    # Aplica un BAN temporal (bloqueo total) a las IPs atacantes.
     baneadas = 0
     for id_cluster, sw_hoja in switches_hoja.items():
         host_inicio = 50 + (id_cluster - 1) * HOSTS_POR_CLUSTER + 1
@@ -385,7 +385,7 @@ def aplicar_mitigacion_ban(red, ips_atacantes, switches_hoja, ip_servidor, durac
 
 
 def remover_mitigacion_ban(red, ips_atacantes, switches_hoja, ip_servidor):
-    """Elimina las reglas de BAN aplicadas."""
+    # Elimina las reglas de BAN aplicadas.
     for id_cluster, sw_hoja in switches_hoja.items():
         comando_switch(sw_hoja, "ovs-ofctl -O OpenFlow13 del-flows {} 'priority={}'".format(
             sw_hoja.name, PRIO_BAN))
@@ -396,7 +396,7 @@ def remover_mitigacion_ban(red, ips_atacantes, switches_hoja, ip_servidor):
 # Limpiar mitigaciones
 # ==========================================================
 def limpiar_todas_las_mitigaciones(red, ips_atacantes, ips_cluster4, switches_hoja, ip_servidor):
-    """Elimina todas las mitigaciones (umbral + limite de tasa + ban)."""
+    # Elimina todas las mitigaciones (umbral + limite de tasa + ban).
     escribir_log("Limpiando todas las mitigaciones (umbral + limite de tasa + ban)...")
     remover_mitigacion_umbral(red, ips_cluster4, ip_servidor)
     remover_mitigacion_limite_tasa(red, ips_atacantes, switches_hoja, ip_servidor)
@@ -408,7 +408,7 @@ def limpiar_todas_las_mitigaciones(red, ips_atacantes, ips_cluster4, switches_ho
 # Ping / monitor
 # ==========================================================
 def parsear_salida_ping(out):
-    """Extrae la latencia en ms desde la salida de ping."""
+    # Extrae la latencia en ms desde la salida de ping.
     m = re.search(r"time[=<]\s*([\d\.]+)\s*ms", out, re.IGNORECASE)
     if m:
         try:
@@ -419,7 +419,7 @@ def parsear_salida_ping(out):
 
 
 def ejecutar_prueba_ping(host_origen, ip_destino, cantidad, retardo_entre, etiqueta=""):
-    """Ejecuta N pings y devuelve lista de resultados y cantidad de timeouts."""
+    # Ejecuta N pings y devuelve lista de resultados y cantidad de timeouts.
     resultados = []
     timeouts   = 0
 
@@ -446,7 +446,7 @@ def ejecutar_prueba_ping(host_origen, ip_destino, cantidad, retardo_entre, etiqu
 
 
 def hilo_monitor_ping(evento_detener, evento_ping_fallidos, host_origen, ip_destino):
-    """Hilo que monitoriza la conectividad por ping y activa el evento de pings fallidos."""
+    # Hilo que monitoriza la conectividad por ping y activa el evento de pings fallidos.
     timeouts_consecutivos = 0
     while not evento_detener.is_set():
         try:
@@ -471,7 +471,7 @@ def hilo_monitor_ping(evento_detener, evento_ping_fallidos, host_origen, ip_dest
 # Pre-check de fase con 3 pings + detector
 # ==========================================================
 def prechequeo_fase(nombre_fase, espera_ataque, host_pinger, ip_servidor, clusters):
-    """Realiza 3 pings de prueba y llama al detector de ataque antes de cada fase."""
+    # Realiza 3 pings de prueba y llama al detector de ataque antes de cada fase.
     escribir_log("PRECHEQUEO {}: iniciando 3 pings de verificacion (espera_ataque={})".format(
         nombre_fase, espera_ataque))
 
@@ -529,7 +529,7 @@ def prechequeo_fase(nombre_fase, espera_ataque, host_pinger, ip_servidor, cluste
 # Servidores iperf
 # ==========================================================
 def iniciar_servidores_iperf(host):
-    """Inicia servidores iperf TCP y UDP en el host servidor."""
+    # Inicia servidores iperf TCP y UDP en el host servidor.
     comando_host(host, "pkill -f '^iperf -s' || true")
     comando_host(host, "ulimit -n 65535; nohup iperf -s -p {} > /tmp/iperf_tcp.log 2>&1 &".format(TCP_PORT))
     comando_host(host, "ulimit -n 65535; nohup iperf -s -u -p {} > /tmp/iperf_udp.log 2>&1 &".format(UDP_PORT))
@@ -551,7 +551,7 @@ def iniciar_servidores_iperf(host):
 # Lanzar y detener DDoS (por fase)
 # ==========================================================
 def lanzar_ataque_ddos(clusters, ip_destino, duracion_seg, usar_udp=False):
-    """Lanza el ataque DDoS (TCP o UDP) desde todos los atacantes."""
+    # Lanza el ataque DDoS (TCP o UDP) desde todos los atacantes.
     mapa_procesos = {}
     mapa_comandos = {}
     modo = "UDP" if usar_udp else "TCP"
@@ -593,7 +593,7 @@ def lanzar_ataque_ddos(clusters, ip_destino, duracion_seg, usar_udp=False):
 
 
 def detener_ataque_ddos(clusters):
-    """Detiene todos los procesos iperf de los hosts atacantes."""
+    # Detiene todos los procesos iperf de los hosts atacantes.
     for cluster in clusters:
         for h in cluster:
             comando_host(h, "killall -9 iperf 2>/dev/null || true")
@@ -610,7 +610,7 @@ def detener_ataque_ddos(clusters):
 # Topologia
 # ==========================================================
 def construir_topologia_universidad(ip_controlador=RYU_HOST, puerto_controlador=6653, hay_controlador=True):
-    """Construye la topologia SDN de la universidad con controlador remoto opcional."""
+    # Construye la topologia SDN de la universidad con controlador remoto opcional.
     red = Mininet(controller=None, link=TCLink, switch=OVSKernelSwitch, build=False)
 
     if hay_controlador:
@@ -709,9 +709,7 @@ def construir_topologia_universidad(ip_controlador=RYU_HOST, puerto_controlador=
 # WHITELIST DE IPs LEGITIMAS
 # ==========================================================
 def construir_whitelist(host_pinger, servidores):
-    """
-    Construye una whitelist de IPs consideradas legitimas (no se tratan como atacantes).
-    """
+    # Construye una whitelist de IPs consideradas legitimas (no se tratan como atacantes).
     ips_whitelist = set()
 
     if host_pinger is not None:
@@ -736,13 +734,12 @@ def construir_whitelist(host_pinger, servidores):
 # IPs atacantes (todo lo que NO esta en la whitelist)
 # ==========================================================
 def recopilar_ips_atacantes(clusters, ips_whitelist):
-    """
-    Recolecta las IPs consideradas atacantes y las agrupa por cluster.
-    Aqui se asume que:
-      - La whitelist contiene solo IPs legitimas (cc, servidores, etc.).
-      - Ningun host de los clusters ni el maestro esta en la whitelist.
-    Por claridad, si alguna IP de cluster aparece en la whitelist, se excluye.
-    """
+    # Recolecta las IPs consideradas atacantes y las agrupa por cluster.
+    # Aqui se asume que:
+    #   - La whitelist contiene solo IPs legitimas (cc, servidores, etc.).
+    #   - Ningun host de los clusters ni el maestro esta en la whitelist.
+    # Por claridad, si alguna IP de cluster aparece en la whitelist, se excluye.
+
     todas_las_ips    = []
     mapa_ips_cluster = {}
 
@@ -794,7 +791,7 @@ def recopilar_ips_atacantes(clusters, ips_whitelist):
 # Primeo de rutas
 # ==========================================================
 def inicializar_rutas_red(red, host_pinger, servidores, clusters):
-    """Envia pings iniciales para poblar ARP y tablas de enrutamiento."""
+    # Envia pings iniciales para poblar ARP y tablas de enrutamiento.
     escribir_log("Inicializando rutas...")
 
     for serv in servidores:
@@ -823,7 +820,7 @@ def inicializar_rutas_red(red, host_pinger, servidores, clusters):
 # Guardar resultados
 # ==========================================================
 def guardar_resultados_ping(log_ping):
-    """Guarda el log de pings en CSV simple."""
+    # Guarda el log de pings en CSV simple.
     asegurar_directorio_resultados()
     with open(ARCHIVO_PING, "w", encoding="utf-8") as f:
         f.write("FASE,CICLO,INTENTO,PING_NUM,LATENCIA\n")
@@ -833,7 +830,7 @@ def guardar_resultados_ping(log_ping):
 
 
 def generar_resumen(log_ping):
-    """Genera un resumen estadistico de latencias por fase."""
+    # Genera un resumen estadistico de latencias por fase.
     from collections import defaultdict
     datos_fases = defaultdict(list)
 

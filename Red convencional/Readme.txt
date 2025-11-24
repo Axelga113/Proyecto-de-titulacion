@@ -4,7 +4,7 @@
 
 # Experimento DDoS en Red Convencional (Mininet)
 
-Este repositorio contiene un script en Python para evaluar el comportamiento de una red convencional (sin SDN, sin controladores y sin mitigaciones) bajo un ataque DDoS.
+Este repositorio contiene un script en Python para evaluar el comportamiento de una red convencional (sin SDN, sin controladores y sin mitigaciones) bajo un ataque DDoS, este, esta en formato ".py", además, se tiene otro archivo de extensión ".mn", este corresponde a la topología de la red, este, corresponde al uso de MiniEdit.
 
 El objetivo principal es comparar este escenario con una red SDN en experimentos posteriores, midiendo diferencias en estabilidad, latencia, saturación y capacidad de respuesta.
 
